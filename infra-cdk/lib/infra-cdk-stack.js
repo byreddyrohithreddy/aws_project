@@ -1,0 +1,24 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.InfraCdkStack = void 0;
+const cdk = require("aws-cdk-lib");
+const aws_cdk_lib_1 = require("aws-cdk-lib");
+const aws_cdk_lib_2 = require("aws-cdk-lib");
+class InfraCdkStack extends cdk.Stack {
+    constructor(scope, id, props) {
+        super(scope, id, props);
+        // The code that defines your stack goes here
+        const bucket = new aws_cdk_lib_1.aws_s3.Bucket(this, 'fovus-s3-324432', {
+            versioned: true
+        });
+        const lambdaFunction = new aws_cdk_lib_1.aws_lambda.Function(this, 'MyLambdaFunction', {
+            runtime: aws_cdk_lib_1.aws_lambda.Runtime.NODEJS_20_X,
+            handler: 'index.handler',
+            code: aws_cdk_lib_1.aws_lambda.Code.fromAsset('/Users/manideepreddyaliminati/Documents/internships/fovus-intern-coding-challenge/lambda'), // Assuming your Lambda code is in a directory named 'lambda'
+        });
+        bucket.grantReadWrite(lambdaFunction);
+        bucket.addEventNotification(aws_cdk_lib_1.aws_s3.EventType.OBJECT_CREATED_PUT, new aws_cdk_lib_2.aws_s3_notifications.LambdaDestination(lambdaFunction));
+    }
+}
+exports.InfraCdkStack = InfraCdkStack;
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiaW5mcmEtY2RrLXN0YWNrLmpzIiwic291cmNlUm9vdCI6IiIsInNvdXJjZXMiOlsiaW5mcmEtY2RrLXN0YWNrLnRzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiI7OztBQUFBLG1DQUFtQztBQUVuQyw2Q0FBa0U7QUFDbEUsNkNBQXVGO0FBRXZGLE1BQWEsYUFBYyxTQUFRLEdBQUcsQ0FBQyxLQUFLO0lBQzFDLFlBQVksS0FBZ0IsRUFBRSxFQUFVLEVBQUUsS0FBc0I7UUFDOUQsS0FBSyxDQUFDLEtBQUssRUFBRSxFQUFFLEVBQUUsS0FBSyxDQUFDLENBQUM7UUFFeEIsNkNBQTZDO1FBRTdDLE1BQU0sTUFBTSxHQUFHLElBQUksb0JBQUUsQ0FBQyxNQUFNLENBQUMsSUFBSSxFQUFFLGlCQUFpQixFQUFFO1lBQ3BELFNBQVMsRUFBRSxJQUFJO1NBQ2hCLENBQUMsQ0FBQztRQUVILE1BQU0sY0FBYyxHQUFHLElBQUksd0JBQU0sQ0FBQyxRQUFRLENBQUMsSUFBSSxFQUFFLGtCQUFrQixFQUFFO1lBQ25FLE9BQU8sRUFBRSx3QkFBTSxDQUFDLE9BQU8sQ0FBQyxXQUFXO1lBQ25DLE9BQU8sRUFBRSxlQUFlO1lBQ3hCLElBQUksRUFBRSx3QkFBTSxDQUFDLElBQUksQ0FBQyxTQUFTLENBQUMsMEZBQTBGLENBQUMsRUFBRSw2REFBNkQ7U0FDdkwsQ0FBQyxDQUFDO1FBRUgsTUFBTSxDQUFDLGNBQWMsQ0FBQyxjQUFjLENBQUMsQ0FBQztRQUN0QyxNQUFNLENBQUMsb0JBQW9CLENBQUMsb0JBQUUsQ0FBQyxTQUFTLENBQUMsa0JBQWtCLEVBQUUsSUFBSSxrQ0FBZ0IsQ0FBQyxpQkFBaUIsQ0FBQyxjQUFjLENBQUMsQ0FBQyxDQUFDO0lBQ3ZILENBQUM7Q0FDRjtBQW5CRCxzQ0FtQkMiLCJzb3VyY2VzQ29udGVudCI6WyJpbXBvcnQgKiBhcyBjZGsgZnJvbSAnYXdzLWNkay1saWInO1xuaW1wb3J0IHsgQ29uc3RydWN0IH0gZnJvbSAnY29uc3RydWN0cyc7XG5pbXBvcnQgeyBhd3NfczMgYXMgczMsIGF3c19sYW1iZGEgYXMgbGFtYmRhICB9IGZyb20gJ2F3cy1jZGstbGliJztcbmltcG9ydCB7IGF3c19pYW0gYXMgaWFtLCBhd3NfczNfbm90aWZpY2F0aW9ucyBhcyBzM19ub3RpZmljYXRpb25zIH0gZnJvbSAnYXdzLWNkay1saWInO1xuXG5leHBvcnQgY2xhc3MgSW5mcmFDZGtTdGFjayBleHRlbmRzIGNkay5TdGFjayB7XG4gIGNvbnN0cnVjdG9yKHNjb3BlOiBDb25zdHJ1Y3QsIGlkOiBzdHJpbmcsIHByb3BzPzogY2RrLlN0YWNrUHJvcHMpIHtcbiAgICBzdXBlcihzY29wZSwgaWQsIHByb3BzKTtcblxuICAgIC8vIFRoZSBjb2RlIHRoYXQgZGVmaW5lcyB5b3VyIHN0YWNrIGdvZXMgaGVyZVxuXG4gICAgY29uc3QgYnVja2V0ID0gbmV3IHMzLkJ1Y2tldCh0aGlzLCAnZm92dXMtczMtMzI0NDMyJywge1xuICAgICAgdmVyc2lvbmVkOiB0cnVlXG4gICAgfSk7XG5cbiAgICBjb25zdCBsYW1iZGFGdW5jdGlvbiA9IG5ldyBsYW1iZGEuRnVuY3Rpb24odGhpcywgJ015TGFtYmRhRnVuY3Rpb24nLCB7XG4gICAgICBydW50aW1lOiBsYW1iZGEuUnVudGltZS5OT0RFSlNfMjBfWCxcbiAgICAgIGhhbmRsZXI6ICdpbmRleC5oYW5kbGVyJyxcbiAgICAgIGNvZGU6IGxhbWJkYS5Db2RlLmZyb21Bc3NldCgnL1VzZXJzL21hbmlkZWVwcmVkZHlhbGltaW5hdGkvRG9jdW1lbnRzL2ludGVybnNoaXBzL2ZvdnVzLWludGVybi1jb2RpbmctY2hhbGxlbmdlL2xhbWJkYScpLCAvLyBBc3N1bWluZyB5b3VyIExhbWJkYSBjb2RlIGlzIGluIGEgZGlyZWN0b3J5IG5hbWVkICdsYW1iZGEnXG4gICAgfSk7XG5cbiAgICBidWNrZXQuZ3JhbnRSZWFkV3JpdGUobGFtYmRhRnVuY3Rpb24pO1xuICAgIGJ1Y2tldC5hZGRFdmVudE5vdGlmaWNhdGlvbihzMy5FdmVudFR5cGUuT0JKRUNUX0NSRUFURURfUFVULCBuZXcgczNfbm90aWZpY2F0aW9ucy5MYW1iZGFEZXN0aW5hdGlvbihsYW1iZGFGdW5jdGlvbikpO1xuICB9XG59XG5cbiJdfQ==
